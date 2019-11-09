@@ -22,7 +22,6 @@
 TextDisplay::TextDisplay(int _height, int _width) : Display(_height, _width) {
     height = _height;
     width = _width;
-    std::cout << "constructor: height: " << this->height << " width: " << this->width << std::endl;
     initscr();
     start_color();
     init_pair(WATER_PAIR, COLOR_CYAN, COLOR_BLUE);
@@ -39,7 +38,6 @@ void TextDisplay::draw(CELL_STATES states[]) {
     // Each "row" or "column" in the data will actually be multiple "rows" or "columns" in the output text, due to padding etc.
     // These values will probably come from the board object
     
-    // TODO: why are height and width always 1 here?
     std::cout << "inside draw: " << "height: " << this->height << " width: " << this->width << " address: " << &*this << std::endl;
     
     int left_margin = 2;

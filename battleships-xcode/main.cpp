@@ -7,11 +7,13 @@
 
 #include "consts.hpp"
 
+int HEIGHT = 8;
+int WIDTH = 5;
+
 int main() {
-    TextDisplay display(8, 5);
-    Board board(8, 5, &display);
-    std::cout << "display in main: " << "height: " << display.height << " width: " << display.width << " address: " << &display << std::endl;
-    std::cout << "board display in main: " << "height: " << board.display->height << " width: " << board.display->width << " address: " << &*board.display << std::endl;
+    TextDisplay display(HEIGHT, WIDTH);
+    Board board(HEIGHT, WIDTH, &display);
     display.draw(board.states);
     while (true) {}
+    return 0;
 }

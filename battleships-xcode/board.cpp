@@ -1,6 +1,7 @@
 #include "board.hpp"
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 
@@ -30,10 +31,8 @@ int *Board::index_to_xy(int index) {
 
 bool Board::is_ship_overlapping(int x, int y, bool is_vertical, int ship_size) {
     CELL_STATES current_cell;
-    int index;
     for (int ship_cell_index = 0; ship_cell_index < ship_size; ship_cell_index++) {
-        index = this->xy_to_index(x, y);
-        current_cell = this->states[index];
+        current_cell = this->states[this->xy_to_index(x, y)];
         if (current_cell != EMPTY) {
             return true;
         }
@@ -58,6 +57,7 @@ void Board::add_ship_to_board(int x, int y, bool is_vertical, int ship_size) {
 }
 
 void Board::place_ships(int * ship_sizes, int n_ships) {
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
     int ship_size, max_x, max_y, x, y;
     bool is_vertical;
     for (int ship_index = 0; ship_index < n_ships; ship_index++) {

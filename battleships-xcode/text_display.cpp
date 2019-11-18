@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "ncurses.h"
 
@@ -34,11 +35,9 @@ TextDisplay::~TextDisplay() {
     endwin();
 }
 
-void TextDisplay::draw(CELL_STATES states[]) {
+void TextDisplay::draw(std::vector<CELL_STATES> states) {
     // Each "row" or "column" in the data will actually be multiple "rows" or "columns" in the output text, due to padding etc.
     // These values will probably come from the board object
-    
-    std::cout << "inside draw: " << "height: " << this->height << " width: " << this->width << " address: " << &*this << std::endl;
     
     int left_margin = 2;
     int top_margin = 2;
@@ -65,7 +64,8 @@ void TextDisplay::draw(CELL_STATES states[]) {
     for (int y = 0; y < this->height; y++) {
         for (int x = 0; x < this->width; x++) {
             switch (states[state_counter++]) {
-                case HIT:
+                // TODO: set to `HIDDEN_SHIP` so we can see where they're placed. Change back to `HIT` eventually
+                case HIDDEN_SHIP:
                     attron(COLOR_PAIR(HIT_PAIR));
                     mvhline(y + top_margin, x + left_margin, SHOT, 1);
                     attroff(COLOR_PAIR(HIT_PAIR));

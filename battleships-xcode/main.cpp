@@ -18,7 +18,19 @@ int main() {
     TextDisplay display(HEIGHT, WIDTH);
     Board board(HEIGHT, WIDTH);
     board.place_ships(SHIP_SIZES, N_SHIPS);
+
     display.draw(board.states);
-    while (true) {}
+
+    // Main game loop
+    while (true) {
+        // Get user input
+        int *xy = display.get_shot();
+        
+        // Update state
+        board.record_shot(xy);
+
+        // Display
+        display.draw(board.states);
+    }
     return 0;
 }

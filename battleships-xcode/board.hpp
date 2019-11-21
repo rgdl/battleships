@@ -11,9 +11,10 @@ public:
     Board(int _height, int _width);
     int height;
     int width;
-    void record_shot(char * coords);
-    void place_ships(int * ship_sizes, int n_ships);
     std::vector<CELL_STATES> states;
+    int shots_taken_count;
+    void record_shot(int * coords);
+    void place_ships(int * ship_sizes, int n_ships);
     int xy_to_index(int x, int y);
     int *index_to_xy(int index);
 private:

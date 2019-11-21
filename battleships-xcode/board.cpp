@@ -12,6 +12,7 @@
 Board::Board(int _height, int _width) {
     height = _height;
     width = _width;
+    shots_taken_count = 0;
     for (int i = 0; i < height * width; i++) {
         this->states.push_back(EMPTY);
     }
@@ -78,5 +79,16 @@ void Board::place_ships(int * ship_sizes, int n_ships) {
         } while (this->is_ship_overlapping(x, y, is_vertical, ship_size));
         
         this->add_ship_to_board(x, y, is_vertical, ship_size);
+    }
+};
+
+void Board::record_shot(int * coords) {
+    this->shots_taken_count++;
+    int index = this->xy_to_index(coords[0], coords[1]);
+    if (this->states[index] == HIDDEN_SHIP) {
+        this->states[index] = HIT;
+    }
+    if (this->states[index] == EMPTY) {
+        this->states[index] = MISS;
     }
 };

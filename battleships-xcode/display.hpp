@@ -15,6 +15,7 @@ public:
     Display(int _height, int _width);
     ~Display();
     virtual void draw(std::vector<CELL_STATES> states);
+    virtual int *get_shot();
     int height;
     int width;
 };

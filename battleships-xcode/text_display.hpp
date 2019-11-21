@@ -10,6 +10,7 @@ public:
     TextDisplay(int _height, int _width);
     ~TextDisplay();
     void draw(std::vector<CELL_STATES>);
+    int *get_shot();
     int height;
     int width;
 };

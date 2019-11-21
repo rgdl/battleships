@@ -20,6 +20,9 @@
 #define HORIZONTAL_LINE '-'
 #define VERTICAL_LINE '|'
 
+#define MAX_INPUT_CHARS 5
+#define CELL_SIZE 1
+
 TextDisplay::TextDisplay(int _height, int _width) : Display(_height, _width) {
     height = _height;
     width = _width;
@@ -64,8 +67,7 @@ void TextDisplay::draw(std::vector<CELL_STATES> states) {
     for (int y = 0; y < this->height; y++) {
         for (int x = 0; x < this->width; x++) {
             switch (states[state_counter++]) {
-                // TODO: set to `HIDDEN_SHIP` so we can see where they're placed. Change back to `HIT` eventually
-                case HIDDEN_SHIP:
+                case HIT:
                     attron(COLOR_PAIR(HIT_PAIR));
                     mvhline(y + top_margin, x + left_margin, SHOT, 1);
                     attroff(COLOR_PAIR(HIT_PAIR));
@@ -82,5 +84,43 @@ void TextDisplay::draw(std::vector<CELL_STATES> states) {
             }
         }
     }
-    refresh();
+}
+
+int *TextDisplay::get_shot() {
+    char prompt[] = "Enter coordinates:\n";
+    char fail_prompt[] = "Try again. Coordinates must have format like 'a1'\n";
+    char input[MAX_INPUT_CHARS];
+    static int xy[2];
+
+    // Prompt user for input
+    mvprintw(3 + CELL_SIZE * this->height, 0, "%s", prompt);
+    while (true) {
+        getstr(input);
+        
+        // Convert letter to x coordinate
+        for (int i = 0; i < this->width; i++) {
+            if (input[0] == 'a' + i || input[0] == 'A' + i) {
+                xy[0] = i;
+                break;
+            }
+        }
+        
+        // Get rid of letter and convert remainder into y coordinate
+        for (int i = 1; i < MAX_INPUT_CHARS; i++) {
+            input[i - 1] = input[i];
+            if (input[i] == '\0') {
+                break;
+            }
+        }
+        // Index from 0, not 1
+        xy[1] = atoi(input) - 1;
+        
+        if (xy[0] >= 0 && xy[1] >= 0) {
+            break;
+        }
+        
+        mvprintw(3 + CELL_SIZE * this->height, 0, "%s", fail_prompt);
+    }
+    
+    return xy;
 }

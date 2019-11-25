@@ -14,6 +14,7 @@
 #define HIT_PAIR 2
 #define MISS_PAIR 3
 #define BOARD_PAIR 4
+#define RED_TEXT_PAIR 5
 
 #define WATER '~'
 #define SHOT 'X'
@@ -32,13 +33,14 @@ TextDisplay::TextDisplay(int _height, int _width) : Display(_height, _width) {
     init_pair(HIT_PAIR, COLOR_RED, COLOR_WHITE);
     init_pair(MISS_PAIR, COLOR_RED, COLOR_BLUE);
     init_pair(BOARD_PAIR, COLOR_WHITE, COLOR_BLACK);
+    init_pair(RED_TEXT_PAIR, COLOR_RED, COLOR_BLACK);
 }
 
 TextDisplay::~TextDisplay() {
     endwin();
 }
 
-void TextDisplay::draw(std::vector<CELL_STATES> states) {
+void TextDisplay::draw(Board board) {
     // Each "row" or "column" in the data will actually be multiple "rows" or "columns" in the output text, due to padding etc.
     // These values will probably come from the board object
     
@@ -63,10 +65,15 @@ void TextDisplay::draw(std::vector<CELL_STATES> states) {
     }
     attroff(COLOR_PAIR(BOARD_PAIR));
     
+    // Draw shots counter
+    attron(COLOR_PAIR(RED_TEXT_PAIR));
+    mvprintw(2, 3 + CELL_SIZE * this->width, "%d shots taken", board.shots_taken_count);
+    attroff(COLOR_PAIR(RED_TEXT_PAIR));
+    
     int state_counter = 0;
     for (int y = 0; y < this->height; y++) {
         for (int x = 0; x < this->width; x++) {
-            switch (states[state_counter++]) {
+            switch (board.states[state_counter++]) {
                 case HIT:
                     attron(COLOR_PAIR(HIT_PAIR));
                     mvhline(y + top_margin, x + left_margin, SHOT, 1);
@@ -87,13 +94,11 @@ void TextDisplay::draw(std::vector<CELL_STATES> states) {
 }
 
 int *TextDisplay::get_shot() {
-    char prompt[] = "Enter coordinates:\n";
-    char fail_prompt[] = "Try again. Coordinates must have format like 'a1'\n";
     char input[MAX_INPUT_CHARS];
     static int xy[2];
 
     // Prompt user for input
-    mvprintw(3 + CELL_SIZE * this->height, 0, "%s", prompt);
+    mvprintw(3 + CELL_SIZE * this->height, 0, "Enter coordinates:\n");
     while (true) {
         getstr(input);
         
@@ -119,7 +124,7 @@ int *TextDisplay::get_shot() {
             break;
         }
         
-        mvprintw(3 + CELL_SIZE * this->height, 0, "%s", fail_prompt);
+        mvprintw(3 + CELL_SIZE * this->height, 0, "%s", "Try again. Coordinates must have format like 'a1'\n");
     }
     
     return xy;

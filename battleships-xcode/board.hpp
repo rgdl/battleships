@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "consts.hpp"
-#include "display.hpp"
 
 class Board {
 public:

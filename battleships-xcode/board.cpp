@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 
-#include "display.hpp"
 #include "consts.hpp"
 
 

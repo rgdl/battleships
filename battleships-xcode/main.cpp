@@ -19,7 +19,7 @@ int main() {
     Board board(HEIGHT, WIDTH);
     board.place_ships(SHIP_SIZES, N_SHIPS);
 
-    display.draw(board.states);
+    display.draw(board);
 
     // Main game loop
     while (true) {
@@ -30,7 +30,7 @@ int main() {
         board.record_shot(xy);
 
         // Display
-        display.draw(board.states);
+        display.draw(board);
     }
     return 0;
 }

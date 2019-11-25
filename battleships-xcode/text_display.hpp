@@ -11,6 +11,7 @@ public:
     TextDisplay(int _height, int _width);
     ~TextDisplay();
     void draw(Board board);
+    virtual void game_over(Board board, int display_seconds);
     int *get_shot();
     int height;
     int width;

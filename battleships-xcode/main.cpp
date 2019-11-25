@@ -13,6 +13,7 @@ int HEIGHT = 8;
 int WIDTH = 5;
 int SHIP_SIZES[] = { 2, 3, 5 };
 int N_SHIPS = sizeof(SHIP_SIZES) / sizeof(*SHIP_SIZES);
+int GAME_OVER_DISPLAY_SECONDS = 5;
 
 int main() {
     TextDisplay display(HEIGHT, WIDTH);
@@ -28,9 +29,15 @@ int main() {
         
         // Update state
         board.record_shot(xy);
+        
+        if (board.game_is_over()) {
+            break;
+        }
 
         // Display
         display.draw(board);
     }
+    display.game_over(board, GAME_OVER_DISPLAY_SECONDS);
+
     return 0;
 }

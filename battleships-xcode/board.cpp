@@ -91,3 +91,12 @@ void Board::record_shot(int * coords) {
         this->states[index] = MISS;
     }
 };
+
+bool Board::game_is_over() {
+    for (int i = 0; i < this->width * this->height; i++) {
+        if (this->states[i] == HIDDEN_SHIP) {
+            return false;
+        }
+    }
+    return true;
+}

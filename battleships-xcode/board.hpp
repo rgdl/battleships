@@ -16,6 +16,7 @@ public:
     void place_ships(int * ship_sizes, int n_ships);
     int xy_to_index(int x, int y);
     int *index_to_xy(int index);
+    bool game_is_over();
 private:
     bool is_ship_overlapping(int x, int y, bool is_vertical, int ship_size);
     void add_ship_to_board(int x, int y, bool is_vertical, int ship_size);

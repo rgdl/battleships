@@ -1,6 +1,7 @@
 #include "text_display.hpp"
 
 #include <cmath>
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -126,6 +127,25 @@ int *TextDisplay::get_shot() {
         
         mvprintw(3 + CELL_SIZE * this->height, 0, "%s", "Try again. Coordinates must have format like 'a1'\n");
     }
-    
+    refresh();
     return xy;
+}
+
+void TextDisplay::game_over(Board board, int display_seconds) {
+    clear();
+    attron(COLOR_PAIR(RED_TEXT_PAIR));
+    mvprintw(0, 0, "GAME OVER!", board.shots_taken_count);
+    attroff(COLOR_PAIR(RED_TEXT_PAIR));
+    attron(COLOR_PAIR(BOARD_PAIR));
+    mvprintw(2, 0, "%d shots taken", board.shots_taken_count);
+    attroff(COLOR_PAIR(BOARD_PAIR));
+    refresh();
+    long int t0, t1;
+    t0 = time(0);
+    while (true) {
+        t1 = time(0);
+        if (t1 - t0 > display_seconds) {
+            return;
+        }
+    }
 }

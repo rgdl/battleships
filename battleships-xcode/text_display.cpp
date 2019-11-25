@@ -97,9 +97,10 @@ void TextDisplay::draw(Board board) {
 int *TextDisplay::get_shot() {
     char input[MAX_INPUT_CHARS];
     static int xy[2];
+    int prompt_position = 3 + CELL_SIZE * this->height;
 
     // Prompt user for input
-    mvprintw(3 + CELL_SIZE * this->height, 0, "Enter coordinates:\n");
+    mvprintw(prompt_position, 0, "Enter coordinates:\n");
     while (true) {
         getstr(input);
         
@@ -125,8 +126,10 @@ int *TextDisplay::get_shot() {
             break;
         }
         
-        mvprintw(3 + CELL_SIZE * this->height, 0, "%s", "Try again. Coordinates must have format like 'a1'\n");
+        mvprintw(prompt_position, 0, "%s", "Try again. Coordinates must have format like 'a1'\n");
     }
+    move(prompt_position + 1, 0);
+    clrtoeol();
     refresh();
     return xy;
 }
@@ -139,6 +142,10 @@ void TextDisplay::game_over(Board board, int display_seconds) {
     attron(COLOR_PAIR(BOARD_PAIR));
     mvprintw(2, 0, "%d shots taken", board.shots_taken_count);
     attroff(COLOR_PAIR(BOARD_PAIR));
+
+    // Make cursor invisible
+    curs_set(0);
+
     refresh();
     long int t0, t1;
     t0 = time(0);

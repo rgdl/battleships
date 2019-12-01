@@ -56,7 +56,7 @@ void TextDisplay::draw(Board board) {
     mvhline(0, 1, VERTICAL_LINE, 1);
     char coord = 'A';
     for (int x = 0; x < this->width; x++) {
-        mvhline(0, 1 + CELL_SIZE * x + left_margin, coord++, 1);
+        mvhline(0, CELL_SIZE * x + left_margin + CELL_SIZE / 2, coord++, 1);
     }
     for (int x = 0; x < CELL_SIZE * this->width + left_margin; x++) {
         mvhline(1, x, HORIZONTAL_LINE, 1);
@@ -64,10 +64,10 @@ void TextDisplay::draw(Board board) {
     
     // Draw left margin
     for (int y = 0; y < this->height; y++) {
-        mvhline(CELL_SIZE * y + top_margin + 1, 0, std::to_string(y + 1).c_str()[0], 1);
-        mvhline(CELL_SIZE * y + top_margin, 1, VERTICAL_LINE, 1);
-        mvhline(CELL_SIZE * y + top_margin + 1, 1, VERTICAL_LINE, 1);
-        mvhline(CELL_SIZE * y + top_margin + 2, 1, VERTICAL_LINE, 1);
+        mvhline(CELL_SIZE * y + top_margin + CELL_SIZE / 2, 0, std::to_string(y + 1).c_str()[0], 1);
+    }
+    for (int y = 0; y < CELL_SIZE * this->height + top_margin; y++) {
+        mvhline(y, 1, VERTICAL_LINE, 1);
     }
     attroff(COLOR_PAIR(BOARD_PAIR));
     

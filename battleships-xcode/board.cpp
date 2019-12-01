@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "consts.hpp"
+#include "ship.hpp"
 
 
 Board::Board(int _height, int _width) {
@@ -46,14 +47,24 @@ bool Board::is_ship_overlapping(int x, int y, bool is_vertical, int ship_size) {
 }
 
 void Board::add_ship_to_board(int x, int y, bool is_vertical, int ship_size) {
+    std::vector<int> indices;
+    
     for (int ship_cell_index = 0; ship_cell_index < ship_size; ship_cell_index++) {
-        this->states[this->xy_to_index(x, y)] = HIDDEN_SHIP;
+        int index = this->xy_to_index(x, y);
+        indices.push_back(index);
+        this->states[index] = HIDDEN_SHIP;
         if (is_vertical) {
             y++;
         } else {
             x++;
         }
     }
+    
+    Ship ship(indices);
+    
+    this->ships.push_back(ship);
+    
+    
 }
 
 void Board::place_ships(int * ship_sizes, int n_ships) {
@@ -86,6 +97,17 @@ void Board::record_shot(int * coords) {
     int index = this->xy_to_index(coords[0], coords[1]);
     if (this->states[index] == HIDDEN_SHIP) {
         this->states[index] = HIT;
+
+        // Find which ship was hit and set its cells to sunk if need be
+        for (int i = 0; i < this->ships.size(); i++) {
+            this->ships[i].try_shot(index);
+            if (this->ships[i].is_sunk) {
+                for (int j = 0; j < this->ships[i].indices.size(); j++) {
+                    this->states[this->ships[i].indices[j]] = SUNK_SHIP;
+                }
+            }
+        }
+        
     }
     if (this->states[index] == EMPTY) {
         this->states[index] = MISS;

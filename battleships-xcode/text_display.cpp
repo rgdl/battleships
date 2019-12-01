@@ -1,7 +1,6 @@
 #include "text_display.hpp"
 
 #include <cmath>
-#include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,6 +15,7 @@
 #define MISS_PAIR 3
 #define BOARD_PAIR 4
 #define RED_TEXT_PAIR 5
+#define SUNK_SHIP_PAIR 6
 
 #define WATER '~'
 #define SHOT 'X'
@@ -24,7 +24,7 @@
 #define BLANK ' '
 
 #define MAX_INPUT_CHARS 5
-#define CELL_SIZE 3
+#define CELL_SIZE 5
 
 void draw_cell(int x, int y, int top_margin, int left_margin, char symbol);
 
@@ -38,6 +38,7 @@ TextDisplay::TextDisplay(int _height, int _width) : Display(_height, _width) {
     init_pair(MISS_PAIR, COLOR_RED, COLOR_BLUE);
     init_pair(BOARD_PAIR, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_TEXT_PAIR, COLOR_RED, COLOR_BLACK);
+    init_pair(SUNK_SHIP_PAIR, COLOR_RED, COLOR_RED);
 }
 
 TextDisplay::~TextDisplay() {
@@ -89,6 +90,11 @@ void TextDisplay::draw(Board board) {
                     attron(COLOR_PAIR(MISS_PAIR));
                     draw_cell(x, y, top_margin, left_margin, SHOT);
                     attroff(COLOR_PAIR(MISS_PAIR));
+                    break;
+                case SUNK_SHIP:
+                    attron(COLOR_PAIR(SUNK_SHIP_PAIR));
+                    draw_cell(x, y, top_margin, left_margin, BLANK);
+                    attroff(COLOR_PAIR(SUNK_SHIP_PAIR));
                     break;
                 default:
                     attron(COLOR_PAIR(WATER_PAIR));
@@ -142,9 +148,10 @@ int *TextDisplay::get_shot() {
 void TextDisplay::game_over(Board board, int display_seconds) {
     clear();
     attron(COLOR_PAIR(RED_TEXT_PAIR));
-    mvprintw(0, 0, "GAME OVER!", board.shots_taken_count);
+    mvprintw(0, 0, "GAME OVER", board.shots_taken_count);
     attroff(COLOR_PAIR(RED_TEXT_PAIR));
     attron(COLOR_PAIR(BOARD_PAIR));
+    mvprintw(1, 0, "You sunk my battleships!");
     mvprintw(2, 0, "%d shots taken", board.shots_taken_count);
     attroff(COLOR_PAIR(BOARD_PAIR));
 
@@ -152,14 +159,7 @@ void TextDisplay::game_over(Board board, int display_seconds) {
     curs_set(0);
 
     refresh();
-    long int t0, t1;
-    t0 = time(0);
-    while (true) {
-        t1 = time(0);
-        if (t1 - t0 > display_seconds) {
-            return;
-        }
-    }
+    pause(display_seconds);
 }
 
 void draw_cell(int x, int y, int top_margin, int left_margin, char symbol) {

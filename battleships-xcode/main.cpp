@@ -29,13 +29,13 @@ int main() {
         
         // Update state
         board.record_shot(xy);
-        
-        if (board.game_is_over()) {
-            break;
-        }
 
         // Display
         display.draw(board);
+
+        if (board.game_is_over()) {
+            break;
+        }
     }
     display.game_over(board, GAME_OVER_DISPLAY_SECONDS);
 

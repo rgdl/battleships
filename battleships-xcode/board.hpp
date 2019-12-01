@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "consts.hpp"
+#include "ship.hpp"
 
 class Board {
 public:
@@ -11,6 +12,7 @@ public:
     int height;
     int width;
     std::vector<CELL_STATES> states;
+    std::vector<Ship> ships;
     int shots_taken_count;
     void record_shot(int * coords);
     void place_ships(int * ship_sizes, int n_ships);

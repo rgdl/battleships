@@ -12,6 +12,7 @@
 		8616FDEF2376CE6B0088923D /* display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8616FDED2376CE6B0088923D /* display.cpp */; };
 		8616FDF22376CE8D0088923D /* text_display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8616FDF02376CE8D0088923D /* text_display.cpp */; };
 		8616FDF42376CE9E0088923D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8616FDF32376CE9E0088923D /* main.cpp */; };
+		86F72A012393976200CB1DFC /* ship.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F729FF2393976200CB1DFC /* ship.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,8 @@
 		8616FDF32376CE9E0088923D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8616FDF62376D0230088923D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		864909A22376CC2200AE9FFA /* battleships-xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "battleships-xcode"; sourceTree = BUILT_PRODUCTS_DIR; };
+		86F729FF2393976200CB1DFC /* ship.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ship.cpp; sourceTree = "<group>"; };
+		86F72A002393976200CB1DFC /* ship.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ship.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,8 @@
 				8616FDF12376CE8D0088923D /* text_display.hpp */,
 				8616FDF32376CE9E0088923D /* main.cpp */,
 				8616FDF62376D0230088923D /* README.md */,
+				86F729FF2393976200CB1DFC /* ship.cpp */,
+				86F72A002393976200CB1DFC /* ship.hpp */,
 			);
 			path = "battleships-xcode";
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 				8616FDEF2376CE6B0088923D /* display.cpp in Sources */,
 				8616FDF42376CE9E0088923D /* main.cpp in Sources */,
 				8616FDF22376CE8D0088923D /* text_display.cpp in Sources */,
+				86F72A012393976200CB1DFC /* ship.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

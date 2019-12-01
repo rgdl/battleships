@@ -6,6 +6,6 @@
  * If an EMPTY is selected, it becomes MISS.
  */
 
-enum CELL_STATES {HIDDEN_SHIP, EMPTY, HIT, MISS};
+enum CELL_STATES {HIDDEN_SHIP, EMPTY, HIT, MISS, SUNK_SHIP};
 
 #endif

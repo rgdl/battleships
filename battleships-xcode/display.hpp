@@ -21,4 +21,6 @@ public:
     int width;
 };
 
+void pause(int seconds);
+
 #endif

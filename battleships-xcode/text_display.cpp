@@ -21,9 +21,12 @@
 #define SHOT 'X'
 #define HORIZONTAL_LINE '-'
 #define VERTICAL_LINE '|'
+#define BLANK ' '
 
 #define MAX_INPUT_CHARS 5
-#define CELL_SIZE 1
+#define CELL_SIZE 3
+
+void draw_cell(int x, int y, int top_margin, int left_margin, char symbol);
 
 TextDisplay::TextDisplay(int _height, int _width) : Display(_height, _width) {
     height = _height;
@@ -53,16 +56,18 @@ void TextDisplay::draw(Board board) {
     mvhline(0, 1, VERTICAL_LINE, 1);
     char coord = 'A';
     for (int x = 0; x < this->width; x++) {
-        mvhline(0, x + left_margin, coord++, 1);
+        mvhline(0, 1 + CELL_SIZE * x + left_margin, coord++, 1);
     }
-    for (int x = 0; x < this->width + left_margin; x++) {
+    for (int x = 0; x < CELL_SIZE * this->width + left_margin; x++) {
         mvhline(1, x, HORIZONTAL_LINE, 1);
     }
     
     // Draw left margin
     for (int y = 0; y < this->height; y++) {
-        mvhline(y + top_margin, 0, std::to_string(y + 1).c_str()[0], 1);
-        mvhline(y + top_margin, 1, VERTICAL_LINE, 1);
+        mvhline(CELL_SIZE * y + top_margin + 1, 0, std::to_string(y + 1).c_str()[0], 1);
+        mvhline(CELL_SIZE * y + top_margin, 1, VERTICAL_LINE, 1);
+        mvhline(CELL_SIZE * y + top_margin + 1, 1, VERTICAL_LINE, 1);
+        mvhline(CELL_SIZE * y + top_margin + 2, 1, VERTICAL_LINE, 1);
     }
     attroff(COLOR_PAIR(BOARD_PAIR));
     
@@ -77,17 +82,17 @@ void TextDisplay::draw(Board board) {
             switch (board.states[state_counter++]) {
                 case HIT:
                     attron(COLOR_PAIR(HIT_PAIR));
-                    mvhline(y + top_margin, x + left_margin, SHOT, 1);
+                    draw_cell(x, y, top_margin, left_margin, SHOT);
                     attroff(COLOR_PAIR(HIT_PAIR));
                     break;
                 case MISS:
                     attron(COLOR_PAIR(MISS_PAIR));
-                    mvhline(y + top_margin, x + left_margin, SHOT, 1);
+                    draw_cell(x, y, top_margin, left_margin, SHOT);
                     attroff(COLOR_PAIR(MISS_PAIR));
                     break;
                 default:
                     attron(COLOR_PAIR(WATER_PAIR));
-                    mvhline(y + top_margin, x + left_margin, WATER, 1);
+                    draw_cell(x, y, top_margin, left_margin, WATER);
                     attroff(COLOR_PAIR(WATER_PAIR));
             }
         }
@@ -155,4 +160,17 @@ void TextDisplay::game_over(Board board, int display_seconds) {
             return;
         }
     }
+}
+
+void draw_cell(int x, int y, int top_margin, int left_margin, char symbol) {
+    for (int i = 0; i < CELL_SIZE; i++) {
+        mvhline(CELL_SIZE * y + top_margin + i, CELL_SIZE * x + left_margin, BLANK, CELL_SIZE);
+    }
+
+    mvhline(
+        CELL_SIZE * y + top_margin + CELL_SIZE / 2,
+        CELL_SIZE * x + left_margin + CELL_SIZE / 2,
+        symbol,
+        1
+    );
 }

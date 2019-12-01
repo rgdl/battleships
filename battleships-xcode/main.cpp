@@ -9,8 +9,8 @@
 
 /* Check out Scott Meyers, 'Effective Modern C++' */
 
-int HEIGHT = 8;
-int WIDTH = 5;
+int HEIGHT = 6;
+int WIDTH = 8;
 int SHIP_SIZES[] = { 2, 3, 5 };
 int N_SHIPS = sizeof(SHIP_SIZES) / sizeof(*SHIP_SIZES);
 int GAME_OVER_DISPLAY_SECONDS = 5;
